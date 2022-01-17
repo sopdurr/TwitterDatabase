@@ -23,9 +23,21 @@ namespace twitterAPI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options => {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .Build()
+                    );
+            }); 
+        
             services.AddControllers();
             services.AddScoped<Irepository, TwitterRepository>();
 
@@ -35,9 +47,11 @@ namespace twitterAPI
 );
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+       
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("CorsPolicy");
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

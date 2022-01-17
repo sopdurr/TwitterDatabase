@@ -8,11 +8,13 @@ namespace twitterAPI.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required]  
         [MaxLength(15)]
         public string UserName { get; set; }
 
         public List<Tweet> Tweets { get; set; } = new List<Tweet>();
+
+        public List<Reply> Replies { get; set; } = new List<Reply>();
 
     }
 }

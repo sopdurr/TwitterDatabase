@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using twitterAPI.Data;
 using twitterAPI.Models;
+
 
 namespace twitterAPI.Controllers
 {
@@ -39,7 +38,17 @@ namespace twitterAPI.Controllers
         {
             try
             {
-                return Ok(_repository.GetUserById(id));
+                User u = _repository.GetUserById(id);
+
+                if(u == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(u);
+                }
+
 
             }
             catch (Exception)
@@ -93,6 +102,31 @@ namespace twitterAPI.Controllers
             {
                 return StatusCode(500);
             }
+
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public ActionResult<User> DeleteUser(int id)
+        {
+            try
+            {
+                bool deleteSuccess = _repository.DeleteUser(id);
+
+                if (!deleteSuccess)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+
 
         }
     }

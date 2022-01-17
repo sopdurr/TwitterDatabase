@@ -1,33 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using twitterAPI.Data;
 using twitterAPI.Models;
 
 namespace twitterAPI.Controllers
 {
-    [Route("api/tweets")]
+
+    [Route("api/replies")]
     [Controller]
-    public class TweetsController : ControllerBase
+    public class ReplyController : ControllerBase
     {
         private readonly Irepository _repository;
 
-        public TweetsController(Irepository repository)
+        public ReplyController(Irepository repository)
         {
             _repository = repository;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<Tweet>>> GetAllTweets()
-        {
 
+        [HttpGet]
+        public ActionResult<List<Reply>> GetReply()
+        {
             try
             {
-                List<Tweet> tweets = await _repository.GetAllTweetsAsync();
-
-                return Ok(tweets);
+                return Ok(_repository.GetReply());
 
             }
             catch (Exception)
@@ -38,20 +35,19 @@ namespace twitterAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<Tweet> GetTweetById(int id)
+        public ActionResult<Reply> GetReplyById(int id)
         {
-
             try
             {
-                Tweet t = _repository.GetTweetById(id);
+                Reply r = _repository.GetReplyById(id);
 
-                if(t == null)
+                if(r == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    return Ok(t);
+                    return Ok(r);
                 }
 
 
@@ -60,20 +56,18 @@ namespace twitterAPI.Controllers
             {
                 return StatusCode(500);
             }
-
         }
 
         [HttpPost]
-        public IActionResult AddTweet([FromBody] Tweet tweet)
+        public IActionResult AddReply([FromBody] Reply reply)
         {
 
             try
             {
-
                 if (ModelState.IsValid)
                 {
-                    _repository.AddTweet(tweet);
-                    return CreatedAtAction(nameof(GetTweetById), new { id = tweet.Id}, tweet);
+                    _repository.AddReply(reply);
+                    return CreatedAtAction(nameof(GetReplyById), new { id = reply.Id }, reply);
                 }
                 else
                 {
@@ -86,24 +80,24 @@ namespace twitterAPI.Controllers
                 return StatusCode(500);
             }
 
+
         }
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult UpdateTweet(int id, [FromBody] Tweet tweet)
+        public ActionResult<Reply> UpdateReply(int id, [FromBody] Reply reply)
         {
-
             try
             {
-                Tweet updatedTweet = _repository.UpdateTweet(id, tweet);
+                Reply updatedReply = _repository.UpdateReply(id, reply);
 
-                if (updatedTweet == null)
+                if (updatedReply == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    return CreatedAtAction(nameof(GetTweetById), new { id = updatedTweet.Id }, updatedTweet);
+                    return CreatedAtAction(nameof(GetReplyById), new { id = updatedReply.Id }, updatedReply);
                 }
             }
             catch (Exception)
@@ -115,11 +109,11 @@ namespace twitterAPI.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public ActionResult<Tweet> DeleteTweet(int id)
+        public ActionResult<Reply> DeleteReply(int id)
         {
             try
             {
-                bool deleteSuccess = _repository.DeleteTweet(id);
+                bool deleteSuccess = _repository.DeleteReply(id);
 
                 if (!deleteSuccess)
                 {
@@ -135,7 +129,7 @@ namespace twitterAPI.Controllers
                 return StatusCode(500);
             }
 
-           
+
         }
     }
 }

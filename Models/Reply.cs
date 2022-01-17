@@ -4,24 +4,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace twitterAPI.Models
 {
-    public class Tweet
+    public class Reply
     {
-        
         public int Id { get; set; }
-
-        public List<Like> Likes { get; set; }
 
         [Required]
         [MaxLength(280)]
-        public string Content { get; set; }
+        public string ReplyContent { get; set; }
 
-        public List<Reply> Replies { get; set; }
+        public List <ReplyLike> ReplyLikes { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime ReplyDate { get; set; }
 
         public int UserId { get; set; }
 
+        public int TweetId { get; set; }
 
     }
 }
-
