@@ -112,7 +112,30 @@ namespace twitterAPI.Data
             throw new NotImplementedException();
         }
 
-       
+        public void AddReplyLike(ReplyLike replyLike)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReplyLike GetReplyLikeById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ReplyLike> GetReplyLike()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteLike(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteReplyLike(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

@@ -9,7 +9,7 @@ using twitterAPI.Data;
 namespace twitterAPI.Migrations
 {
     [DbContext(typeof(TwitterDbContext))]
-    [Migration("20220117130312_Init")]
+    [Migration("20220204221453_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,6 +114,9 @@ namespace twitterAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Handle")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserName")
                         .IsRequired()

@@ -40,7 +40,7 @@ namespace twitterAPI.Data
         {
             using (var db = _dbContext)
             {
-                return await db.Tweets.Include(l => l.Likes).ToListAsync();
+                return await db.Tweets.Include(l => l.Likes).Include(r => r.Replies).ToListAsync();
             }
         }
 
@@ -48,7 +48,7 @@ namespace twitterAPI.Data
         {
             using (var db = _dbContext)
             {
-                Tweet t = db.Tweets.FirstOrDefault(x => x.Id == id);
+                Tweet t = db.Tweets.Include(l => l.Likes).Include(r => r.Replies).FirstOrDefault(x => x.Id == id);
 
                 return t;
             }
@@ -128,7 +128,7 @@ namespace twitterAPI.Data
         {
             using (var db = _dbContext)
             {
-                return db.Replies.ToList();
+                return db.Replies.Include(r => r.ReplyLikes).ToList();
             }
         }
 
@@ -254,5 +254,76 @@ namespace twitterAPI.Data
 
             }
         }
+
+        public void AddReplyLike(ReplyLike replyLike)
+        {
+            using (var db = _dbContext)
+            {
+                db.ReplyLikes.Add(replyLike);
+                db.SaveChanges();
+            }
+        }
+
+        public ReplyLike GetReplyLikeById(int id)
+        {
+            using (var db = _dbContext)
+            {
+                ReplyLike l = db.ReplyLikes.FirstOrDefault(x => x.Id == id);
+
+                return l;
+            }
+        }
+
+        public List<ReplyLike> GetReplyLike()
+        {
+            using (var db = _dbContext)
+            {
+                return db.ReplyLikes.ToList();
+
+            }
+        }
+
+        public bool DeleteLike(int id)
+        {
+            Like LikeToDelete;
+
+            using (var db = _dbContext)
+            {
+                LikeToDelete = db.Likes.FirstOrDefault(t => t.Id == id);
+
+                if (LikeToDelete == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    db.Likes.Remove(LikeToDelete);
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+        }
+
+        public bool DeleteReplyLike(int id)
+        {
+            ReplyLike ReplyLikeToDelete;
+
+            using (var db = _dbContext)
+            {
+                ReplyLikeToDelete = db.ReplyLikes.FirstOrDefault(t => t.Id == id);
+
+                if (ReplyLikeToDelete == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    db.ReplyLikes.Remove(ReplyLikeToDelete);
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+        }
+
     }
 }

@@ -13,7 +13,8 @@ namespace twitterAPI.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserName = table.Column<string>(type: "TEXT", maxLength: 15, nullable: false)
+                    UserName = table.Column<string>(type: "TEXT", maxLength: 15, nullable: false),
+                    Handle = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

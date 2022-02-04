@@ -42,5 +42,15 @@ namespace twitterAPI.Data
         Like GetLikeById(int id);
 
         List<Like> GetLike();
+
+        void AddReplyLike(ReplyLike replyLike);
+
+        ReplyLike GetReplyLikeById(int id);
+
+        List<ReplyLike> GetReplyLike();
+
+        bool DeleteLike(int id);
+
+        bool DeleteReplyLike(int id);
     }
 }

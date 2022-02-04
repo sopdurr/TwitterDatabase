@@ -6,22 +6,22 @@ using twitterAPI.Models;
 
 namespace twitterAPI.Controllers
 {
-    [Route("api/likes")]
-    public class LikeController : ControllerBase
+    [Microsoft.AspNetCore.Mvc.Route("api/replylikes")]
+    public class ReplyLikeController : ControllerBase
     {
         private readonly Irepository _repository;
 
-        public LikeController(Irepository repository)
+        public ReplyLikeController(Irepository repository)
         {
             _repository = repository;
         }
 
         [HttpGet]
-        public ActionResult<List<Like>> GetLike()
+        public ActionResult<List<ReplyLike>> GetReplyLike()
         {
             try
             {
-                return Ok(_repository.GetLike());
+                return Ok(_repository.GetReplyLike());
 
             }
             catch (Exception)
@@ -31,20 +31,20 @@ namespace twitterAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public ActionResult<Like> GetLikeById(int id)
+        [Microsoft.AspNetCore.Mvc.Route("{id}")]
+        public ActionResult<ReplyLike> GetReplyLikeById(int id)
         {
             try
             {
-                Like l = _repository.GetLikeById(id);
+                ReplyLike r = _repository.GetReplyLikeById(id);
 
-                if (l == null)
+                if (r == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    return Ok(l);
+                    return Ok(r);
                 }
 
 
@@ -56,16 +56,18 @@ namespace twitterAPI.Controllers
         }
 
 
+
+
         [HttpPost]
-        public IActionResult AddLike([FromBody] Like like)
+        public IActionResult AddReplyLike([FromBody] ReplyLike replyLike)
         {
 
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _repository.AddLike(like);
-                    return CreatedAtAction(nameof(GetLikeById), new { id = like.Id }, like);
+                    _repository.AddReplyLike(replyLike);
+                    return CreatedAtAction(nameof(GetReplyLikeById), new { id = replyLike.Id }, replyLike);
                 }
                 else
                 {
@@ -82,11 +84,11 @@ namespace twitterAPI.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public ActionResult<Like> DeleteLike(int id)
+        public ActionResult<ReplyLike> DeleteReplyLike(int id)
         {
             try
             {
-                bool deleteSuccess = _repository.DeleteLike(id);
+                bool deleteSuccess = _repository.DeleteReplyLike(id);
 
                 if (!deleteSuccess)
                 {

@@ -12,6 +12,8 @@ namespace twitterAPI.Models
         [MaxLength(15)]
         public string UserName { get; set; }
 
+        public string Handle { get; set; }
+
         public List<Tweet> Tweets { get; set; } = new List<Tweet>();
 
         public List<Reply> Replies { get; set; } = new List<Reply>();
